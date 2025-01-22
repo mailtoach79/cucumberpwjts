@@ -19,4 +19,7 @@ After(async function () {
     await browser.close();
 });
 
-export { page };
+// export { page };
+export function getPage():Page {
+    return page;
+}
