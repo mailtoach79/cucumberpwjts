@@ -1,7 +1,10 @@
 import { Given, When, Then, setDefaultTimeout, Before, After } from "@cucumber/cucumber";
 import { Browser, BrowserContext, Page, chromium, expect } from "@playwright/test";
 // import { page } from "./basepage.spec";
-import { getPage } from "./basepage.spec";
+import { getPage } from "../../corelib/basepage.spec";
+import HomePage from "../pages/homepage";
+
+let homePage:HomePage;
 
 setDefaultTimeout(1000 * 60);
 
@@ -16,13 +19,19 @@ setDefaultTimeout(1000 * 60);
 // });
 
 Then('Login should be successful', async function () {
-    const isVisible = await getPage().locator("xpath=//a[contains(., 'Edit your account information')]").isVisible();
-    expect(isVisible).toEqual(false);
+    homePage = new HomePage(getPage());
+    await homePage.waitForEditAcInfo();
+
+    // await getPage().locator("xpath=//a[contains(., 'Edit your account information')]").waitFor({timeout:5000})
+    // expect(getPage().locator("xpath=//a[contains(., 'Edit your account information')]")).toBeVisible();
 });
 
 Then('Home page should be displayed', async function () {
-    await getPage().locator("xpath=//*[@id='column-right']/div/a[14]").click();
-    await getPage().getByRole("link", { name: 'Continue' }).click();
+    homePage = new HomePage(getPage());
+    await homePage.homePageDisplayed();
+
+    // await getPage().locator("xpath=//*[@id='column-right']/div/a[14]").click();
+    // await getPage().getByRole("link", { name: 'Continue' }).click();
 });
 
 // After(async function () {
