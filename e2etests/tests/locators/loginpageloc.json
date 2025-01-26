@@ -13,5 +13,6 @@
     },
     "loginBtn":{
         "locator": "xpath=//input[@value='Login']"
+        
     }
 }
